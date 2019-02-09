@@ -59,6 +59,7 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
         Libro libro = listaLibros.get(posicion);
         Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
         holder.titulo.setText(libro.titulo);
+
         aplicacion.getLectorImagenes().get(libro.urlImagen,
                 new ImageLoader.ImageListener() {
                     @Override public void onResponse(ImageLoader.ImageContainer
@@ -70,7 +71,10 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
                         holder.portada.setImageResource(R.drawable.books);
                     }
                 });
-
+        //Animacion propiedades*******
+        holder.itemView.setScaleX(1);
+        holder.itemView.setScaleY(1);
+        //*******
 
     }
 

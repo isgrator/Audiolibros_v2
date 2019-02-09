@@ -1,5 +1,7 @@
 package com.example.audiolibros.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.app.Activity;
 
 import android.app.AlertDialog;
@@ -19,6 +21,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.audiolibros.AdaptadorLibros;
@@ -30,7 +34,7 @@ import com.example.audiolibros.R;
 
 import java.util.List;
 
-public class SelectorFragment extends Fragment {
+public class SelectorFragment extends Fragment implements Animation.AnimationListener {
     private Activity actividad;
     private RecyclerView recyclerView;
     //private AdaptadorLibros adaptador;
@@ -92,8 +96,17 @@ public class SelectorFragment extends Fragment {
                                             @Override
                                             public void onClick(View view) {
                                                 //listaLibros.remove(id);
+                                                //Animacion twin
+                                                Animation anim = AnimationUtils.loadAnimation(actividad, R.anim.menguar);
+                                                v.startAnimation(anim);
+                                                //Animacion propieades*********
+                                                /*Animator anim = AnimatorInflater.loadAnimator(actividad, R.animator.menguar);
+                                                //anim.addListener(SelectorFragment.this);
+                                                anim.setTarget(v);
+                                                anim.start();*/
                                                 adaptador.borrar(id);
-                                                adaptador.notifyDataSetChanged();
+                                                //******************************
+                                                //adaptador.notifyDataSetChanged();
                                             }
                                         })
                                         .show();
@@ -181,6 +194,21 @@ public class SelectorFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        adaptador.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
+
     //******************************************************************
 
 }
