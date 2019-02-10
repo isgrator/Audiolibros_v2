@@ -3,30 +3,26 @@ package com.example.audiolibros;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class widgetAudioLibros extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_audio_libros);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] widgetIds) {
         // There may be multiple widgets active, so update all of them
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+        for (int widgetId : widgetIds) {
+            //updateAppWidget(context, appWidgetManager, appWidgetId);
+            actualizaWidget(context, widgetId);
+
         }
     }
 
@@ -38,6 +34,32 @@ public class widgetAudioLibros extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+
+    public static void actualizaWidget(Context context, int widgetId) {
+        //Crea las remoteViews y las edita
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.widget_audio_libros);
+        
+        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        remoteViews.setTextViewText(R.id.appwidget_text, widgetText);
+
+        //Recuperamos último título y autor de las preferencias
+        SharedPreferences pref = ultimoLibroWidget(context);
+        String titulo = pref.getString("ultimo_titulo","Ningún título");
+        String autor = pref.getString("ultimo_autor","Ningún autor");
+        remoteViews.setTextViewText(R.id.tv_titulo, titulo);
+        remoteViews.setTextViewText(R.id.tv_autor, autor);
+
+        //Indica al widget manager que actualice el widget con id widgetId
+        AppWidgetManager.getInstance(context).updateAppWidget(widgetId, remoteViews);
+    }
+
+    //Método para recuperar datos del libro para el widget
+    private static SharedPreferences ultimoLibroWidget(Context context){
+        SharedPreferences pref = context.getSharedPreferences(
+                "com.example.audiolibros_internal", MODE_PRIVATE);
+        return pref;
     }
 }
 

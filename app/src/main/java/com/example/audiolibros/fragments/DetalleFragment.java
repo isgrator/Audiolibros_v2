@@ -27,6 +27,8 @@ import com.example.audiolibros.ZoomSeekBar;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class DetalleFragment extends Fragment implements
         View.OnTouchListener, MediaPlayer.OnPreparedListener,
         MediaController.MediaPlayerControl, OnZoomSeekBarListener {
@@ -53,6 +55,13 @@ public class DetalleFragment extends Fragment implements
         Libro libro = ((Aplicacion) getActivity().getApplication()).getListaLibros().get(id);
         ((TextView) vista.findViewById(R.id.titulo)).setText(libro.titulo);
         ((TextView) vista.findViewById(R.id.autor)).setText(libro.autor);
+        //Para poder ir al último visitado desde el widget
+        SharedPreferences pref = this.getActivity().getSharedPreferences(
+                "com.example.audiolibros_internal", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("ultimo_titulo",libro.titulo);
+        editor.putString("ultimo_autor",libro.autor);
+        editor.commit();
         //((ImageView) vista.findViewById(R.id.portada)).setImageResource(libro.recursoImagen);
         //Para cargar imágenes de internet
         Aplicacion aplicacion = (Aplicacion) getActivity().getApplication();
