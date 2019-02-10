@@ -1,8 +1,10 @@
 package com.example.audiolibros;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
@@ -20,9 +22,7 @@ public class widgetAudioLibros extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] widgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int widgetId : widgetIds) {
-            //updateAppWidget(context, appWidgetManager, appWidgetId);
             actualizaWidget(context, widgetId);
-
         }
     }
 
@@ -40,7 +40,7 @@ public class widgetAudioLibros extends AppWidgetProvider {
     public static void actualizaWidget(Context context, int widgetId) {
         //Crea las remoteViews y las edita
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.widget_audio_libros);
-        
+
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         remoteViews.setTextViewText(R.id.appwidget_text, widgetText);
 
@@ -51,6 +51,10 @@ public class widgetAudioLibros extends AppWidgetProvider {
         remoteViews.setTextViewText(R.id.tv_titulo, titulo);
         remoteViews.setTextViewText(R.id.tv_autor, autor);
 
+        //Lanza la actividad principal al pulsar sobre el widget
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        remoteViews.setOnClickPendingIntent(R.id.icono_lista_peq, pendingIntent);
         //Indica al widget manager que actualice el widget con id widgetId
         AppWidgetManager.getInstance(context).updateAppWidget(widgetId, remoteViews);
     }
