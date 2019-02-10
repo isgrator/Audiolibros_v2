@@ -82,7 +82,7 @@ public class ZoomSeekBar extends View {
             valMax = a.getInt(R.styleable.ZoomSeekBar_valMax,200);
             escalaMin = a.getInt(R.styleable.ZoomSeekBar_escalaMin,0);
             escalaMax = a.getInt(R.styleable.ZoomSeekBar_escalaMax,180);
-            escalaIni = a.getInt(R.styleable.ZoomSeekBar_escalaIni,0);
+            escalaIni = a.getInt(R.styleable.ZoomSeekBar_escalaIni,150);
             escalaRaya = a.getInt(R.styleable.ZoomSeekBar_escalaRaya,2);
             escalaRayaLarga = a.getInt(R.styleable.ZoomSeekBar_escalaRayaLarga,5);
 
@@ -262,9 +262,9 @@ public class ZoomSeekBar extends View {
     }
 
     public void setValMin(int valMin) {
-        if(valMin < this.valMin && valMin > escalaMin){
+        //if( valMin >= escalaMin && valMin <= this.escalaMax ){
             this.valMin = valMin;
-        }
+        //}
         invalidate();
     }
 
@@ -273,9 +273,9 @@ public class ZoomSeekBar extends View {
     }
 
     public void setValMax(int valMax) {
-        if(valMax > this.valMax && valMax < escalaMax){
+        //if(valMax >= this.escalaMin && valMax <= this.escalaMax){
             this.valMax = valMax;
-        }
+        //}
         invalidate();
     }
 
@@ -284,9 +284,9 @@ public class ZoomSeekBar extends View {
     }
 
     public void setEscalaMin(int escalaMin) {
-        if(escalaMin > 0 && escalaMin < this.escalaMax){
+        //if(escalaMin < this.escalaMax) {
             this.escalaMin = escalaMin;
-        }
+        //}
         invalidate();
     }
 
@@ -295,9 +295,9 @@ public class ZoomSeekBar extends View {
     }
 
     public void setEscalaMax(int escalaMax) {
-        if(escalaMax != this.escalaMax  && escalaMax > this.escalaMin && escalaMax > this.val){
+        //if(escalaMax > this.escalaMin) {
             this.escalaMax = escalaMax;
-        }
+        //}
         invalidate();
     }
 
@@ -306,7 +306,8 @@ public class ZoomSeekBar extends View {
     }
 
     public void setEscalaIni(int escalaIni) {
-        if(escalaIni > 0 && this.escalaIni >= this.escalaMin && escalaIni < this.escalaMax ){
+        //this.escalaIni = Math.min(escalaIni, this.escalaMin);
+        if(escalaIni >= this.escalaMin && escalaIni < this.escalaMax ){
             this.escalaIni = escalaIni;
         }
         invalidate();

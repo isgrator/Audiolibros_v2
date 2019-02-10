@@ -68,6 +68,19 @@
                 app:valMax="200"
                 app:valMin="100"
                 tools:layout_editor_absoluteY="134dp" />
+
+            <TextView
+                android:id="@+id/tv_duracion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="Duración Total"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
     </RelativeLayout>

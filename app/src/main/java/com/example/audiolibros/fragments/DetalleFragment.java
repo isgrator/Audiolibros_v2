@@ -36,6 +36,7 @@ public class DetalleFragment extends Fragment implements
     MediaPlayer mediaPlayer;
     MediaController mediaController;
     ZoomSeekBar zsbAzul;
+    TextView tvDuracion;
 
     @Override public View onCreateView(LayoutInflater inflador, ViewGroup
             contenedor, Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class DetalleFragment extends Fragment implements
         //ZoomSeekBar*******************************************
         zsbAzul = (ZoomSeekBar) vista.findViewById(R.id.zsb_azul);
         zsbAzul.setOnZoomSeekBarListener(this);
+        tvDuracion = vista.findViewById(R.id.tv_duracion);
         //******************************************************
         //
         vista.setOnTouchListener(this);
@@ -103,20 +105,36 @@ public class DetalleFragment extends Fragment implements
         if (preferencias.getBoolean("pref_autoreproducir", true)) {
             mediaPlayer.start();
 
-            Log.d("isabel","duracion en milisegundos: "+mediaPlayer.getDuration());
-            Log.d("isabel","duracion: "+(mediaPlayer.getDuration()/1000)/60 +"' "+(mediaPlayer.getDuration()/1000)%60 +"''");
+
+            int duracionHoras, picoMinutos, picoSegundos = 0;
             int duracionSeg = mediaPlayer.getDuration() / 1000;
-            int duracionMin = duracionSeg / 60;
-            int picoSegundos = duracionSeg % 60;
+            duracionHoras = duracionSeg / 3600;
+            picoMinutos = (duracionSeg-(3600*duracionHoras))/60;
+            picoSegundos = duracionSeg-((duracionHoras*3600)+(picoMinutos*60));
+
+
+            Log.d("isabel","Duracion en milisegundos: "+mediaPlayer.getDuration());
+            Log.d("isabel","Duracion: "+duracionHoras+" h "+ picoMinutos +"' "+picoSegundos+"''");
+            tvDuracion.setText("Duración total: "+duracionHoras+" h "+ picoMinutos +"' "+picoSegundos+"''");
+
+
+
             zsbAzul.setVal(mediaPlayer.getCurrentPosition() / 1000);
             zsbAzul.setValMin(0);
             zsbAzul.setValMax(duracionSeg);
             zsbAzul.setEscalaMin(0);
             zsbAzul.setEscalaMax(duracionSeg);
             zsbAzul.setEscalaIni(0);
-            zsbAzul.setEscalaRaya(duracionSeg/60);
-            zsbAzul.setEscalaRayaLarga(duracionSeg / 5);
-        zsbAzul.invalidate();
+            if(duracionHoras>0){
+                zsbAzul.setEscalaRaya(duracionSeg/30);
+                zsbAzul.setEscalaRayaLarga(duracionSeg /5);
+            }else{
+                zsbAzul.setEscalaRaya(duracionSeg/20);
+                zsbAzul.setEscalaRayaLarga(duracionSeg / 5);
+            }
+            //zsbAzul.setEscalaRaya(duracionSeg/60);
+            //zsbAzul.setEscalaRayaLarga(duracionSeg / 5);
+            zsbAzul.invalidate();
     }
     //***************************************************************
         mediaController.setMediaPlayer(this);
