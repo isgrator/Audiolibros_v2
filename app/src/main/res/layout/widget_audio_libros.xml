@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_dark"
+    android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/appwidget_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/appwidget_text"
+        android:text="@string/appwidget_text"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/icono_lista_peq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/appwidget_text"
+        android:layout_alignLeft="@+id/appwidget_text"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/appwidget_text"
+        android:contentDescription="@string/desc_icono_lista_peq"
+        android:src="@drawable/lista_peq" />
+
+    <ImageView
+        android:id="@+id/icono_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/appwidget_text"
+        android:layout_alignRight="@+id/appwidget_text"
+        android:layout_alignTop="@+id/icono_lista_peq"
+        android:contentDescription="@string/desc_icono_play"
+        android:src="@drawable/play" />
+
+    <TextView
+        android:id="@+id/tv_titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icono_lista_peq"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/titulo_widget_text"
+        android:text="@string/titulo_widget_text"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_autor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_titulo"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/autor_widget_text"
+        android:text="@string/autor_widget_text"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

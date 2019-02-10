@@ -14,14 +14,14 @@ import android.view.View;
 public class ZoomSeekBar extends View {
     //VARIABLES ***************************************************************
     // Valor a controlar
-    private int val = 160; // valor seleccionado
-    private int valMin = 100; // valor mínimo
-    private int valMax = 200; // valor máximo
-    private int escalaMin = 150; // valor mínimo visualizado
-    private int escalaMax = 180; // valor máximo visualizado
-    private int escalaIni = 100; // origen de la escala
-    private int escalaRaya = 2;  // cada cuantas unidades una rayas
-    private int escalaRayaLarga = 5; // cada cuantas rayas una larga
+    private int val ;//= 160; // valor seleccionado
+    private int valMin;// = 100; // valor mínimo
+    private int valMax ;//= 200; // valor máximo
+    private int escalaMin;// = 150; // valor mínimo visualizado
+    private int escalaMax ;//= 180; // valor máximo visualizado
+    private int escalaIni;// = 100; // origen de la escala
+    private int escalaRaya;// = 2;  // cada cuantas unidades una rayas
+    private int escalaRayaLarga;// = 5; // cada cuantas rayas una larga
     // Dimensiones en pixels
     private int altoNumeros;
     private int altoRegla;
@@ -77,12 +77,12 @@ public class ZoomSeekBar extends View {
             palancaPaint.setColor(a.getColor(
                     R.styleable.ZoomSeekBar_colorPalanca, 0xFF00007F));
 
-            val = a.getInt(R.styleable.ZoomSeekBar_val,160);
-            valMin = a.getInt(R.styleable.ZoomSeekBar_valMin,100);
+            val = a.getInt(R.styleable.ZoomSeekBar_val,0);
+            valMin = a.getInt(R.styleable.ZoomSeekBar_valMin,0);
             valMax = a.getInt(R.styleable.ZoomSeekBar_valMax,200);
-            escalaMin = a.getInt(R.styleable.ZoomSeekBar_escalaMin,150);
+            escalaMin = a.getInt(R.styleable.ZoomSeekBar_escalaMin,0);
             escalaMax = a.getInt(R.styleable.ZoomSeekBar_escalaMax,180);
-            escalaIni = a.getInt(R.styleable.ZoomSeekBar_escalaIni,100);
+            escalaIni = a.getInt(R.styleable.ZoomSeekBar_escalaIni,0);
             escalaRaya = a.getInt(R.styleable.ZoomSeekBar_escalaRaya,2);
             escalaRayaLarga = a.getInt(R.styleable.ZoomSeekBar_escalaRayaLarga,5);
 
@@ -191,7 +191,7 @@ public class ZoomSeekBar extends View {
                 if (estado == Estado.PALANCA_PULSADA) {
                     val = ponDentroRango(val_0, escalaMin, escalaMax);
                     if (escuchador != null) {
-                        Log.i("isabel","Escuchador no es null");
+                        Log.d("isabel","Palanca movida");
                         escuchador.onMoverPalanca(val);
                     }
                     invalidate(barRect);

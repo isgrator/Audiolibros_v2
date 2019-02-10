@@ -31,7 +31,7 @@ import com.example.audiolibros.fragments.PreferenciasFragment;
 import com.example.audiolibros.fragments.SelectorFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnZoomSeekBarListener{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private SelectorFragment primerFragment;
 
@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity
     private TabLayout tabs;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+
+    private ZoomSeekBar zsbAzul;
 
 
     @Override
@@ -141,7 +143,6 @@ public class MainActivity extends AppCompatActivity
                 R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //******************************************************
-
 
     }
 
@@ -278,11 +279,6 @@ public class MainActivity extends AppCompatActivity
                 .replace(idContenedor, prefFragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onMoverPalanca(int val) {
-        //Acciones a tomar cuando se mueva la palanca
     }
     //****************************************************************
 }

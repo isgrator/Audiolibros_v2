@@ -20,16 +20,20 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.example.audiolibros.Aplicacion;
 import com.example.audiolibros.Libro;
 import com.example.audiolibros.MainActivity;
+import com.example.audiolibros.OnZoomSeekBarListener;
 import com.example.audiolibros.R;
+import com.example.audiolibros.ZoomSeekBar;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class DetalleFragment extends Fragment implements
         View.OnTouchListener, MediaPlayer.OnPreparedListener,
-        MediaController.MediaPlayerControl {
+        MediaController.MediaPlayerControl, OnZoomSeekBarListener {
     public static String ARG_ID_LIBRO = "id_libro";
     MediaPlayer mediaPlayer;
     MediaController mediaController;
+    ZoomSeekBar zsbAzul;
 
     @Override public View onCreateView(LayoutInflater inflador, ViewGroup
             contenedor, Bundle savedInstanceState) {
@@ -54,6 +58,11 @@ public class DetalleFragment extends Fragment implements
         Aplicacion aplicacion = (Aplicacion) getActivity().getApplication();
         ((NetworkImageView) vista.findViewById(R.id.portada)).setImageUrl(
                 libro.urlImagen,aplicacion.getLectorImagenes());
+
+        //ZoomSeekBar*******************************************
+        zsbAzul = (ZoomSeekBar) vista.findViewById(R.id.zsb_azul);
+        zsbAzul.setOnZoomSeekBarListener(this);
+        //******************************************************
         //
         vista.setOnTouchListener(this);
         if (mediaPlayer != null){
@@ -63,6 +72,7 @@ public class DetalleFragment extends Fragment implements
         mediaPlayer.setOnPreparedListener(this);
         mediaController = new MediaController(getActivity());
         Uri audio = Uri.parse(libro.urlAudio);
+
         try {
             mediaPlayer.setDataSource(getActivity(), audio);
             mediaPlayer.prepareAsync();
@@ -83,11 +93,26 @@ public class DetalleFragment extends Fragment implements
                 .getDefaultSharedPreferences(getActivity());
         if (preferencias.getBoolean("pref_autoreproducir", true)) {
             mediaPlayer.start();
-        }
-        //***************************************************************
+
+            Log.d("isabel","duracion en milisegundos: "+mediaPlayer.getDuration());
+            Log.d("isabel","duracion: "+(mediaPlayer.getDuration()/1000)/60 +"' "+(mediaPlayer.getDuration()/1000)%60 +"''");
+            int duracionSeg = mediaPlayer.getDuration() / 1000;
+            int duracionMin = duracionSeg / 60;
+            int picoSegundos = duracionSeg % 60;
+            zsbAzul.setVal(mediaPlayer.getCurrentPosition() / 1000);
+            zsbAzul.setValMin(0);
+            zsbAzul.setValMax(duracionSeg);
+            zsbAzul.setEscalaMin(0);
+            zsbAzul.setEscalaMax(duracionSeg);
+            zsbAzul.setEscalaIni(0);
+            zsbAzul.setEscalaRaya(duracionSeg/60);
+            zsbAzul.setEscalaRayaLarga(duracionSeg / 5);
+        zsbAzul.invalidate();
+    }
+    //***************************************************************
         mediaController.setMediaPlayer(this);
         mediaController.setAnchorView(getView().findViewById(
-                R.id.fragment_detalle));
+            R.id.fragment_detalle));
         mediaController.setEnabled(true);
         mediaController.show();
     }
@@ -148,8 +173,8 @@ public class DetalleFragment extends Fragment implements
         mediaPlayer.seekTo(pos);
     }
 
-    @Override public void start() {
-        mediaPlayer.start();
+    @Override public void start() {mediaPlayer.start();
+
     }
 
     @Override public int getAudioSessionId() {
@@ -166,5 +191,13 @@ public class DetalleFragment extends Fragment implements
             ((MainActivity) getActivity()).mostrarElementos(false);
         }
         super.onResume();
+    }
+
+    @Override
+    public void onMoverPalanca(int val) {
+        //Acciones a tomar cuando se mueva la palanca
+        Log.i("isabel","hola "+val);
+        mediaPlayer.seekTo(val*1000);  //Para que sea otra vez el valor en milisegundos
+        mediaPlayer.start();
     }
 }

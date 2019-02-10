@@ -3,4 +3,10 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">navigation drawer abierto</string>
     <string name="drawer_close">navigation drawer cerrado</string>
+    <string name="appwidget_text">AUDIOLIBROS</string>
+    <string name="titulo_widget_text">Título</string>
+    <string name="autor_widget_text">Autor</string>
+    <string name="desc_icono_lista_peq">Icono lista pequeña</string>
+    <string name="desc_icono_play">Icono play</string>
+    <string name="add_widget">Add widget</string>
 </resources>
